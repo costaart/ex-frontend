@@ -1,0 +1,50 @@
+<div class="d-flex vh-100">
+  
+  <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+      <span class="fs-4 fw-bold">Gestão de Pedidos</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a routerLink="/pedidos" routerLinkActive="active" class="nav-link text-white">
+          <i class="bi bi-cart me-2"></i> Pedidos
+        </a>
+      </li>
+      <li>
+        <a routerLink="/produtos" routerLinkActive="active" class="nav-link text-white">
+          <i class="bi bi-box-seam me-2"></i> Produtos
+        </a>
+      </li>
+      <li>
+        <a routerLink="/clientes" routerLinkActive="active" class="nav-link text-white">
+          <i class="bi bi-people me-2"></i> Clientes
+        </a>
+      </li>
+    </ul>
+    <hr>
+    <div class="dropdown">
+      <div class="d-flex align-items-center text-white text-decoration-none">
+        <div>
+          <strong>{{ userName }}</strong>
+        </div>
+      </div>
+      <button (click)="logout()" class="btn btn-outline-light btn-sm w-100 mt-3">
+        Sair
+      </button>
+    </div>
+  </div>
+
+  <div class="flex-grow-1 bg-light overflow-auto">
+    <header class="bg-white shadow-sm p-3 mb-4">
+      <div class="container-fluid">
+        <span class="text-muted">Teste Técnico Excellent Sistemas</span>
+      </div>
+    </header>
+
+    <div class="container-fluid px-4">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+</div>
