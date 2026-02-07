@@ -1,0 +1,61 @@
+<div class="container-fluid py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Clientes</h2>
+    <button *ngIf="isAdmin" class="btn btn-primary" routerLink="/clientes/novo">
+      <i class="bi bi-plus-lg"></i> Cadastrar Cliente
+    </button>
+  </div>
+
+  <div class="card mb-4 shadow-sm">
+    <div class="card-body">
+      <div class="input-group">
+        <input 
+          type="text" 
+          class="form-control" 
+          placeholder="Buscar por Razão Social ou CNPJ..." 
+          [(ngModel)]="searchTerm"
+          (keyup.enter)="onSearch()">
+        <button class="btn btn-outline-secondary" type="button" (click)="onSearch()">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="bg-light">
+        <tr>
+          <th class="ps-4">Razão Social</th>
+          <th>CNPJ</th>
+          <th>Email</th>
+          <th class="text-end pe-4">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let client of clients">
+          <td class="ps-4">{{ client.razaoSocial }}</td>
+          <td>{{ client.cnpj }}</td>
+          <td>{{ client.email }}</td>
+          <td class="text-end pe-4">
+            <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="['/clientes', client.id]">
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button *ngIf="isAdmin" class="btn btn-sm btn-outline-danger" (click)="onDelete(client.id)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+        <div class="card-footer d-flex justify-content-end py-3">
+      <button class="btn btn-outline-secondary btn-sm me-2" (click)="prevPage()" [disabled]="page === 1">
+        Anterior
+      </button>
+      <span class="align-self-center mx-2">Página {{ page }}</span>
+      <button class="btn btn-outline-secondary btn-sm" (click)="nextPage()" [disabled]="!hasNextPage">
+        Próximo
+      </button>
+    </div>
+  </div>
+</div>

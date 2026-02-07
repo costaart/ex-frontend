@@ -1,0 +1,66 @@
+<div class="container py-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-white py-3">
+      <h4 class="mb-0">{{ isEditMode ? 'Editar Cliente' : 'Novo Cliente' }}</h4>
+    </div>
+    
+    <div class="card-body">
+      <form (ngSubmit)="onSubmit()" #form="ngForm">
+        
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="cnpj" class="form-label">CNPJ</label>
+            <div class="input-group">
+              <input 
+                type="text" 
+                class="form-control" 
+                id="cnpj" 
+                name="cnpj" 
+                [(ngModel)]="clientData.cnpj" 
+                (blur)="buscarCnpj()" 
+                required 
+                maxlength="18"
+                [disabled]="isEditMode"> <button class="btn btn-outline-secondary" type="button" (click)="buscarCnpj()" [disabled]="isEditMode || isSearchingCnpj">
+                <span *ngIf="isSearchingCnpj" class="spinner-border spinner-border-sm"></span>
+                <i *ngIf="!isSearchingCnpj" class="bi bi-search"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="col-md-8 mb-3">
+            <label for="razaoSocial" class="form-label">Razão Social</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="razaoSocial" 
+              name="razaoSocial" 
+              [(ngModel)]="clientData.razaoSocial" 
+              required>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="email" class="form-label">E-mail</label>
+          <input 
+            type="email" 
+            class="form-control" 
+            id="email" 
+            name="email" 
+            [(ngModel)]="clientData.email" 
+            required
+            email>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2">
+          <button type="button" class="btn btn-outline-secondary" routerLink="/clientes">
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary" [disabled]="form.invalid || isLoading">
+            {{ isEditMode ? 'Salvar Alterações' : 'Cadastrar Cliente' }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

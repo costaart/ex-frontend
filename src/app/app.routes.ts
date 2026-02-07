@@ -7,9 +7,8 @@ import { MainLayoutComponent } from './pages/layout/main-layout.component';
 import { ProductsListComponent } from './pages/products/list/products-list.component';
 import { ProductFormComponent } from './pages/products/form/product-form.component'
 
-import { Component } from '@angular/core';
-// @Component({template: '<h2>Gestão de Pedidos (Em breve)</h2>', standalone: true}) class PedidosPlaceholder {}
-// @Component({template: '<h2>Gestão de Clientes (Em breve)</h2>', standalone: true}) class ClientesPlaceholder {}
+import { ClientListComponent } from './pages/clients/list/client-list.component';
+import { ClientFormComponent } from './pages/clients/form/client-form.component';
 
 export const routes: Routes = [
   { 
@@ -20,16 +19,18 @@ export const routes: Routes = [
   { 
     path: '', 
     component: MainLayoutComponent,
-    canActivate: [authGuard], // Protege o acesso
+    canActivate: [authGuard], 
     children: [
       { path: '', redirectTo: 'produtos', pathMatch: 'full' }, 
       
       { path: 'produtos', component: ProductsListComponent },
       
-      // { path: 'pedidos', component: PedidosPlaceholder },
       { path: 'produtos/novo', component: ProductFormComponent, canActivate: [roleGuard(['ADMIN'])] }, 
-      { path: 'produtos/:id', component: ProductFormComponent, canActivate: [roleGuard(['ADMIN'])] },  
-      // { path: 'clientes', component: ClientesPlaceholder },
+      { path: 'produtos/:id', component: ProductFormComponent, canActivate: [roleGuard(['ADMIN'])] }, 
+
+      { path: 'clientes', component: ClientListComponent },
+      { path: 'clientes/novo', component: ClientFormComponent, canActivate: [roleGuard(['ADMIN'])] },
+      { path: 'clientes/:id', component: ClientFormComponent },
     ]
   },
 
