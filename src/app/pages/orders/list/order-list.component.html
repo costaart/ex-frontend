@@ -61,5 +61,14 @@
         </tr>
       </tbody>
     </table>
+    <div class="card-footer d-flex justify-content-end py-3">
+        <button class="btn btn-outline-secondary btn-sm me-2" (click)="prevPage()" [disabled]="page === 1">
+          Anterior
+        </button>
+        <span class="align-self-center mx-2">Página {{ page }}</span>
+        <button class="btn btn-outline-secondary btn-sm" (click)="nextPage()" [disabled]="!hasNextPage">
+          Próximo
+        </button>
+      </div>
   </div>
 </div>

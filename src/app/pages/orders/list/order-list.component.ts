@@ -17,6 +17,7 @@ styleUrls: ['order-list.component.scss']
 export class OrderListComponent implements OnInit {
   orders: Order[] = [];
   page = 1;
+  perPage = 10;
   hasNextPage = false;
   searchTerm = '';
   isLoading = false;
@@ -34,7 +35,7 @@ export class OrderListComponent implements OnInit {
 
   loadOrders() {
     this.isLoading = true;
-    this.orderService.getAll(this.page, 10, this.searchTerm).subscribe({
+    this.orderService.getAll(this.page, this.perPage, this.searchTerm).subscribe({
       next: (res) => {
         this.orders = res.data;
         this.hasNextPage = res.hasNextPage;
