@@ -9,6 +9,8 @@ import { ProductFormComponent } from './pages/products/form/product-form.compone
 
 import { ClientListComponent } from './pages/clients/list/client-list.component';
 import { ClientFormComponent } from './pages/clients/form/client-form.component';
+import { OrderListComponent } from './pages/orders/list/order-list.component';
+import { OrderFormComponent } from './pages/orders/form/order-form.component';
 
 export const routes: Routes = [
   { 
@@ -24,13 +26,16 @@ export const routes: Routes = [
       { path: '', redirectTo: 'produtos', pathMatch: 'full' }, 
       
       { path: 'produtos', component: ProductsListComponent },
-      
       { path: 'produtos/novo', component: ProductFormComponent, canActivate: [roleGuard(['ADMIN'])] }, 
       { path: 'produtos/:id', component: ProductFormComponent, canActivate: [roleGuard(['ADMIN'])] }, 
 
       { path: 'clientes', component: ClientListComponent },
       { path: 'clientes/novo', component: ClientFormComponent, canActivate: [roleGuard(['ADMIN'])] },
       { path: 'clientes/:id', component: ClientFormComponent },
+
+      { path: 'pedidos', component: OrderListComponent},
+      { path: 'pedidos/novo', component: OrderFormComponent },
+      { path: 'pedidos/:id', component: OrderFormComponent },
     ]
   },
 

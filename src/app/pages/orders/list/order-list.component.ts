@@ -1,44 +1,42 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common'; // DatePipe para formatar datas
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
-import { ClientService } from '../client.service';
-import { Client } from '../client.model';
+import { OrderService } from '../order.service';
+import { Order } from '../order.model';
 import { AuthService } from '../../../auth/auth.service';
 
 @Component({
-  selector: 'app-client-list',
+  selector: 'app-order-list',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
-  templateUrl: 'client-list.component.html',
-  styleUrls: ['client-list.component.scss']
+  templateUrl: 'order-list.component.html',
+styleUrls: ['order-list.component.scss']
 })
-export class ClientListComponent implements OnInit {
-  clients: Client[] = [];
+export class OrderListComponent implements OnInit {
+  orders: Order[] = [];
   page = 1;
-  perPage = 10;
   hasNextPage = false;
   searchTerm = '';
   isLoading = false;
   isAdmin = false;
 
   constructor(
-    private clientService: ClientService,
+    private orderService: OrderService,
     private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.isAdmin = this.authService.hasRole(['ADMIN']);
-    this.loadClients();
+    this.loadOrders();
   }
 
-  loadClients() {
+  loadOrders() {
     this.isLoading = true;
-    this.clientService.getAll(this.page, this.perPage, this.searchTerm).subscribe({
+    this.orderService.getAll(this.page, 10, this.searchTerm).subscribe({
       next: (res) => {
-        
-        this.clients = res.data;
+        this.orders = res.data;
         this.hasNextPage = res.hasNextPage;
         this.isLoading = false;
       },
@@ -50,37 +48,38 @@ export class ClientListComponent implements OnInit {
 
   onSearch() {
     this.page = 1;
-    this.loadClients();
+    this.loadOrders();
   }
 
   nextPage() {
     if (this.hasNextPage) {
       this.page++;
-      this.loadClients();
+      this.loadOrders();
     }
   }
 
   prevPage() {
     if (this.page > 1) {
       this.page--;
-      this.loadClients();
+      this.loadOrders();
     }
   }
 
   onDelete(id: string) {
     Swal.fire({
-      title: 'Excluir Cliente?',
+      title: 'Cancelar Pedido?',
       text: '',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',
       confirmButtonText: 'Excluir',
       cancelButtonText: 'Cancelar',
+
     }).then((result) => {
       if (result.isConfirmed) {
-        this.clientService.delete(id).subscribe(() => {
-          Swal.fire('Excluído!', 'Cliente removido.', 'success');
-          this.loadClients();
+        this.orderService.delete(id).subscribe(() => {
+          Swal.fire('Cancelado!', 'O pedido foi removido.', 'success');
+          this.loadOrders();
         });
       }
     });

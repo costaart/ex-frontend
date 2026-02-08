@@ -1,0 +1,118 @@
+<div class="container py-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+      <h4 class="mb-0">
+        {{ isViewMode ? 'Visualizar Pedido' : 'Novo Pedido' }}
+      </h4>
+    </div>
+    
+    <div class="card-body">
+      
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <label class="form-label fw-bold">Cliente</label>
+          <select 
+            class="form-select" 
+            [(ngModel)]="selectedClientId" 
+            [disabled]="isViewMode">
+            
+            <option value="" disabled selected>Selecione o cliente...</option>
+            <option *ngFor="let client of clients" [value]="client.id">
+              {{ client.razaoSocial }} ({{ client.cnpj }})
+            </option>
+          </select>
+        </div>
+        
+        <div class="col-md-6" *ngIf="isViewMode">
+          <label class="form-label fw-bold">ID do Pedido</label>
+          <input type="text" class="form-control" [value]="orderId" readonly disabled>
+        </div>
+      </div>
+
+      <h5 class="mb-3">Itens do Pedido</h5>
+      
+      <div class="table-responsive mb-3">
+        <table class="table table-bordered align-middle">
+          <thead class="table-light">
+            <tr>
+              <th style="width: 50%;">Produto</th>
+              <th style="width: 15%;">Preço Unit.</th>
+              <th style="width: 15%;">Qtd.</th>
+              <th style="width: 15%;">Subtotal</th>
+              <th style="width: 5%;" class="text-center" *ngIf="!isViewMode">#</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of items; let i = index">
+              
+              <td>
+                <select 
+                  class="form-select" 
+                  [(ngModel)]="item.productId"
+                  [disabled]="isViewMode || (!isViewMode && (getProductDetails(item.productId)?.estoque || 0) <= 0) || isProductDisabled(item.productId, i)">
+                  
+                  <option value="" selected>Selecione...</option>
+                  
+                  <option *ngFor="let p of products" 
+                          [value]="p.id" 
+                          [disabled]="p.estoque <= 0 || isProductDisabled(p.id, i)">
+                    
+                    {{ p.descricao }} 
+                    
+                    <ng-container *ngIf="isProductDisabled(p.id, i)"> (Já adicionado) </ng-container>
+                    <ng-container *ngIf="p.estoque <= 0"> (Sem Estoque) </ng-container>
+                    <ng-container *ngIf="!isProductDisabled(p.id, i) && p.estoque > 0"> (Estoque: {{ p.estoque }}) </ng-container>
+
+                  </option>
+                </select>
+              </td>
+              
+              <td>
+                <input 
+                  type="text" 
+                  class="form-control-plaintext" 
+                  readonly 
+                  [value]="getProductDetails(item.productId)?.valorVenda ? ('R$ ' + getProductDetails(item.productId)?.valorVenda) : '-'">
+              </td>
+              
+              <td>
+                <input 
+                  type="number" 
+                  class="form-control" 
+                  [(ngModel)]="item.quantity" 
+                  min="1"
+                  [disabled]="isViewMode">
+              </td>
+
+              <td class="fw-bold text-end pe-3">
+                R$ {{ getLineSubtotal(item).toFixed(2) }}
+              </td>
+
+              <td class="text-center" *ngIf="!isViewMode">
+                <button class="btn btn-outline-danger btn-sm" (click)="removeLine(i)" tabindex="-1">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <button *ngIf="!isViewMode" class="btn btn-outline-primary mb-4" (click)="addNewLine()">
+        <i class="bi bi-plus-lg"></i> Adicionar Outro Item
+      </button>
+
+      <div class="d-flex justify-content-end gap-2 border-top pt-3">
+        <button class="btn btn-secondary" routerLink="/pedidos">
+          {{ isViewMode ? 'Voltar' : 'Cancelar' }}
+        </button>
+        
+        <button *ngIf="!isViewMode" class="btn btn-success px-5" (click)="onSubmit()" [disabled]="isLoading">
+          <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+          Salvar Pedido
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

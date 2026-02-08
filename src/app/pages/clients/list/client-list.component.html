@@ -29,7 +29,7 @@
           <th class="ps-4">Razão Social</th>
           <th>CNPJ</th>
           <th>Email</th>
-          <th class="text-end pe-4">Ações</th>
+          <th *ngIf="isAdmin" class="text-end pe-4">Ações</th>
         </tr>
       </thead>
       <tbody>
@@ -37,11 +37,11 @@
           <td class="ps-4">{{ client.razaoSocial }}</td>
           <td>{{ client.cnpj }}</td>
           <td>{{ client.email }}</td>
-          <td class="text-end pe-4">
+          <td class="text-end pe-4" *ngIf="isAdmin">
             <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="['/clientes', client.id]">
               <i class="bi bi-pencil"></i>
             </button>
-            <button *ngIf="isAdmin" class="btn btn-sm btn-outline-danger" (click)="onDelete(client.id)">
+            <button class="btn btn-sm btn-outline-danger" (click)="onDelete(client.id)">
               <i class="bi bi-trash"></i>
             </button>
           </td>

@@ -73,7 +73,6 @@ export class ProductsListComponent implements OnInit {
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33', 
-      cancelButtonColor: '#3085d6',
       cancelButtonText: 'Cancelar',
       confirmButtonText: 'Sim',
     }).then((result) => {
