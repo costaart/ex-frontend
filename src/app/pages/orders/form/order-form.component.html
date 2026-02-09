@@ -49,8 +49,7 @@
                 <select 
                   class="form-select" 
                   [(ngModel)]="item.productId"
-                  [disabled]="isViewMode || (!isViewMode && (getProductDetails(item.productId)?.estoque || 0) <= 0) || isProductDisabled(item.productId, i)">
-                  
+                  [disabled]="isViewMode || isProductDisabled(item.productId, i)">
                   <option value="" selected>Selecione...</option>
                   
                   <option *ngFor="let p of products" 
