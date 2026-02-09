@@ -14,8 +14,8 @@ export interface Order {
   id: string;
   createdAt: string;
   updatedAt: string;
-  client: OrderClient;
-  user: OrderUser;
+  client?: OrderClient;
+  user?: OrderUser;
   itemsCount: number;
 }
 
