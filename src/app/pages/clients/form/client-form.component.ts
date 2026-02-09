@@ -52,8 +52,7 @@ export class ClientFormComponent implements OnInit {
         
         this.isLoading = false;
       },
-      error: (err) => {
-        console.error(err);
+      error: () => {
         this.isLoading = false;
         this.router.navigate(['/clientes']);
       }

@@ -42,7 +42,7 @@ export class ProductsListComponent implements OnInit {
       },
       error: () => {
         this.isLoading = false;
-        alert('Erro ao carregar produtos');
+        Swal.fire('Erro', 'Erro ao carregar produtos.', 'error');
       }
     });
   }
@@ -92,11 +92,7 @@ export class ProductsListComponent implements OnInit {
           },
           error: (err) => {
             this.isLoading = false;
-            Swal.fire(
-              'Erro',
-              'Não foi possível excluir o produto.',
-              'error'
-            );
+            Swal.fire('Erro', 'Não foi possível excluir o produto.', 'error');
             console.log(err);
           }
         });

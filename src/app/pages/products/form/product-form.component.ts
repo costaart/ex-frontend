@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProductService } from '../product.service';
-import { Product } from '../product.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-form',
@@ -53,7 +53,7 @@ export class ProductFormComponent implements OnInit {
         this.isLoading = false;
       },
       error: () => {
-        alert('Erro ao carregar produto.');
+        Swal.fire('Erro', 'Erro ao carregar produto.', 'error');
         this.router.navigate(['/produtos']);
       }
     });
@@ -71,12 +71,12 @@ export class ProductFormComponent implements OnInit {
     if (this.isEditMode && this.productId) {
       this.productService.update(this.productId, this.productData).subscribe({
         next: () => {
-          alert('Produto atualizado com sucesso!');
+          Swal.fire('Sucesso', 'Produto atualizado com sucesso!', 'success');
           this.router.navigate(['/produtos']);
         },
         error: () => {
           this.isLoading = false;
-          alert('Erro ao atualizar produto.');
+          Swal.fire('Erro', 'Erro ao atualizar produto.', 'error');
         }
       });
 
@@ -88,13 +88,12 @@ export class ProductFormComponent implements OnInit {
 
       this.productService.create(newProduct).subscribe({
         next: () => {
-          alert('Produto criado com sucesso!');
+          Swal.fire('Sucesso', 'Pedido criado!', 'success');
           this.router.navigate(['/produtos']);
         },
-        error: (err) => {
+        error: () => {
           this.isLoading = false;
-          console.error(err);
-          alert('Erro ao criar produto.');
+          Swal.fire('Erro', 'Erro ao criar produto.', 'error');
         }
       });
     }

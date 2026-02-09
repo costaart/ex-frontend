@@ -78,8 +78,7 @@ export class OrderFormComponent implements OnInit {
 
         this.isLoading = false;
       },
-      error: (err) => {
-        console.error(err);
+      error: () => {
         Swal.fire('Erro', 'Não foi possível carregar o pedido.', 'error');
         this.router.navigate(['/pedidos']);
       }
@@ -142,9 +141,8 @@ export class OrderFormComponent implements OnInit {
         Swal.fire('Sucesso', 'Pedido criado!', 'success');
         this.router.navigate(['/pedidos']);
       },
-      error: (err) => {
+      error: () => {
         this.isLoading = false;
-        console.error(err);
         Swal.fire('Erro', 'Falha ao criar pedido.', 'error');
       }
     });
